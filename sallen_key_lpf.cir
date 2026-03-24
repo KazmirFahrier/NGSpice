@@ -1,0 +1,29 @@
+* Sallen-Key 2nd Order Active Low-Pass Filter
+* Cutoff frequency: ~1kHz
+
+* Input voltage source (AC sweep)
+Vin in 0 AC 1
+
+* Filter components
+R1 in n1 15.9k
+R2 n1 n2 15.9k
+C1 n1 out 10n
+C2 n2 0 10n
+
+* Ideal Op-Amp (VCVS with gain=1, unity buffer)
+Eout out 0 n2 0 1e6
+Rfb out n2 1k
+Rin n2 0 1k
+
+* AC Analysis: sweep from 10Hz to 100kHz, 100 points per decade
+.ac dec 100 10 100k
+
+* Control block
+.control
+run
+plot db(v(out)/v(in))
+wrdata lpf_response.txt frequency db(v(out)/v(in))
+quit
+.endc
+
+.end
